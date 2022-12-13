@@ -69,13 +69,13 @@ services:
       # SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085
 
-  consumer:
+  files_consumer:
     build:
-      context: ../consumer/
-    container_name: consumer
-    hostname: consumer
+      context: ../files_consumer/
+    container_name: files_consumer
+    hostname: files_consumer
     env_file:
-      - consumer.env
+      - files_consumer.env
     depends_on:
       - minio
       - redis_db
@@ -83,13 +83,43 @@ services:
       - zookeeper
       - schema_registry
 
-  producer:
+  structured_data_consumer:
     build: 
-      context: ../producer/
-    container_name: producer
-    hostname: producer
+      context: ../structured_data_consumer/
+    container_name: structured_data_consumer
+    hostname: structured_data_consumer
     env_file:
-      - producer.env
+      - structured_data_consumer.env
+    depends_on:
+      - minio
+      - redis_db
+      - broker
+      - zookeeper
+      - schema_registry
+
+  files_producer:
+    build: 
+      context: ../files_producer/
+    container_name: files_producer
+    hostname: files_producer
+    ports:
+      - '5000:5000'
+    env_file:
+      - files_producer.env
+    depends_on:
+      - broker
+      - zookeeper
+      - schema_registry
+
+  structured_data_producer:
+    build: 
+      context: ../structured_data_producer/
+    container_name: structured_data_producer
+    hostname: structured_data_producer
+    ports:
+      - '5001:5000'
+    env_file:
+      - structured_data_producer.env
     depends_on:
       - broker
       - zookeeper
