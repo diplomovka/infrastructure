@@ -103,7 +103,7 @@ services:
     container_name: files_producer
     hostname: files_producer
     ports:
-      - '5000:5000'
+      - '5001:5000'
     env_file:
       - files_producer.env
     depends_on:
@@ -117,7 +117,7 @@ services:
     container_name: structured_data_producer
     hostname: structured_data_producer
     ports:
-      - '5001:5000'
+      - '5002:5000'
     env_file:
       - structured_data_producer.env
     depends_on:
