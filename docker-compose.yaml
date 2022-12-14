@@ -70,8 +70,9 @@ services:
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085
 
   files_consumer:
-    build:
-      context: ../files_consumer/
+    # build:
+    #   context: ../files_consumer/
+    image: ykbhlvck/files_consumer:latest
     container_name: files_consumer
     hostname: files_consumer
     env_file:
@@ -84,8 +85,9 @@ services:
       - schema_registry
 
   structured_data_consumer:
-    build: 
-      context: ../structured_data_consumer/
+    # build: 
+    #   context: ../structured_data_consumer/
+    image: ykbhlvck/structured_data_consumer:latest
     container_name: structured_data_consumer
     hostname: structured_data_consumer
     env_file:
@@ -98,8 +100,9 @@ services:
       - schema_registry
 
   files_producer:
-    build: 
-      context: ../files_producer/
+    # build: 
+    #   context: ../files_producer/
+    image: ykbhlvck/files_producer:latest
     container_name: files_producer
     hostname: files_producer
     ports:
@@ -112,8 +115,9 @@ services:
       - schema_registry
 
   structured_data_producer:
-    build: 
-      context: ../structured_data_producer/
+    # build: 
+    #   context: ../structured_data_producer/
+    image: ykbhlvck/structured_data_producer:latest
     container_name: structured_data_producer
     hostname: structured_data_producer
     ports:
