@@ -71,35 +71,31 @@ services:
       # SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085
 
-  # files_consumer:
-  #   # build:
-  #   #   context: ../files_consumer/
-  #   image: ykbhlvck/files_consumer:latest
-  #   container_name: files_consumer
-  #   hostname: files_consumer
-  #   env_file:
-  #     - files_consumer.env
-  #   depends_on:
-  #     - minio
-  #     - redis_db
-  #     - broker
-  #     - zookeeper
-  #     - schema_registry
+  files_consumer:
+    image: ykbhlvck/files_consumer:flexible-window-size-experiment
+    container_name: files_consumer
+    hostname: files_consumer
+    env_file:
+      - files_consumer.env
+    depends_on:
+      - minio
+      - redis_db
+      - broker
+      - zookeeper
+      - schema_registry
 
-  # files_producer:
-  #   # build: 
-  #   #   context: ../files_producer/
-  #   image: ykbhlvck/files_producer:latest
-  #   container_name: files_producer
-  #   hostname: files_producer
-  #   ports:
-  #     - '5001:5000'
-  #   env_file:
-  #     - files_producer.env
-  #   depends_on:
-  #     - broker
-  #     - zookeeper
-  #     - schema_registry
+  files_producer:
+    image: ykbhlvck/files_producer:flexible-window-size-experiment
+    container_name: files_producer
+    hostname: files_producer
+    ports:
+      - '5001:5000'
+    env_file:
+      - files_producer.env
+    depends_on:
+      - broker
+      - zookeeper
+      - schema_registry
 
   redis_db:
     image: redis:alpine3.16
