@@ -1,6 +1,8 @@
 # created based on: https://github.com/confluentinc/cp-all-in-one/blob/7.2.1-post/cp-all-in-one/docker-compose.yml
 # healthcheck and depends on created based on https://github.com/confluentinc/cp-demo/blob/7.2.1-post/docker-compose.yml
 
+# NOTE: there is no need to start postgres_db, pgadmin, structured_data_consumer and structured_data_producer in hash experiment
+
 version: '3'
 services:
   zookeeper:
@@ -69,65 +71,65 @@ services:
       # SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: 'zookeeper:2181'
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085
 
-  files_consumer:
-    # build:
-    #   context: ../files_consumer/
-    image: ykbhlvck/files_consumer:latest
-    container_name: files_consumer
-    hostname: files_consumer
-    env_file:
-      - files_consumer.env
-    depends_on:
-      - minio
-      - redis_db
-      - broker
-      - zookeeper
-      - schema_registry
+  # files_consumer:
+  #   # build:
+  #   #   context: ../files_consumer/
+  #   image: ykbhlvck/files_consumer:latest
+  #   container_name: files_consumer
+  #   hostname: files_consumer
+  #   env_file:
+  #     - files_consumer.env
+  #   depends_on:
+  #     - minio
+  #     - redis_db
+  #     - broker
+  #     - zookeeper
+  #     - schema_registry
 
-  structured_data_consumer:
-    # build: 
-    #   context: ../structured_data_consumer/
-    image: ykbhlvck/structured_data_consumer:latest
-    container_name: structured_data_consumer
-    hostname: structured_data_consumer
-    env_file:
-      - structured_data_consumer.env
-    depends_on:
-      - minio
-      - redis_db
-      - broker
-      - zookeeper
-      - schema_registry
+  # structured_data_consumer:
+  #   # build: 
+  #   #   context: ../structured_data_consumer/
+  #   image: ykbhlvck/structured_data_consumer:latest
+  #   container_name: structured_data_consumer
+  #   hostname: structured_data_consumer
+  #   env_file:
+  #     - structured_data_consumer.env
+  #   depends_on:
+  #     - minio
+  #     - redis_db
+  #     - broker
+  #     - zookeeper
+  #     - schema_registry
 
-  files_producer:
-    # build: 
-    #   context: ../files_producer/
-    image: ykbhlvck/files_producer:latest
-    container_name: files_producer
-    hostname: files_producer
-    ports:
-      - '5001:5000'
-    env_file:
-      - files_producer.env
-    depends_on:
-      - broker
-      - zookeeper
-      - schema_registry
+  # files_producer:
+  #   # build: 
+  #   #   context: ../files_producer/
+  #   image: ykbhlvck/files_producer:latest
+  #   container_name: files_producer
+  #   hostname: files_producer
+  #   ports:
+  #     - '5001:5000'
+  #   env_file:
+  #     - files_producer.env
+  #   depends_on:
+  #     - broker
+  #     - zookeeper
+  #     - schema_registry
 
-  structured_data_producer:
-    # build: 
-    #   context: ../structured_data_producer/
-    image: ykbhlvck/structured_data_producer:latest
-    container_name: structured_data_producer
-    hostname: structured_data_producer
-    ports:
-      - '5002:5000'
-    env_file:
-      - structured_data_producer.env
-    depends_on:
-      - broker
-      - zookeeper
-      - schema_registry
+  # structured_data_producer:
+  #   # build: 
+  #   #   context: ../structured_data_producer/
+  #   image: ykbhlvck/structured_data_producer:latest
+  #   container_name: structured_data_producer
+  #   hostname: structured_data_producer
+  #   ports:
+  #     - '5002:5000'
+  #   env_file:
+  #     - structured_data_producer.env
+  #   depends_on:
+  #     - broker
+  #     - zookeeper
+  #     - schema_registry
 
   redis_db:
     image: redis:alpine3.16
@@ -150,28 +152,28 @@ services:
       REDIS_HOSTS: redis_db
     restart: always
 
-  postgres_db:
-    image: postgres:15rc1-alpine3.16
-    container_name: postgres_db
-    ports:
-      - '5432:5432'
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: data
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+  # postgres_db:
+  #   image: postgres:15rc1-alpine3.16
+  #   container_name: postgres_db
+  #   ports:
+  #     - '5432:5432'
+  #   environment:
+  #     POSTGRES_USER: root
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_DB: data
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
 
   # source: https://towardsdatascience.com/how-to-run-postgresql-and-pgadmin-using-docker-3a6a8ae918b5
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4:2022-10-17-2
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: root@root.com
-      PGADMIN_DEFAULT_PASSWORD: password
-    ports:
-      - '5050:80'
+  # pgadmin:
+  #   container_name: pgadmin
+  #   image: dpage/pgadmin4:2022-10-17-2
+  #   restart: always
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: root@root.com
+  #     PGADMIN_DEFAULT_PASSWORD: password
+  #   ports:
+  #     - '5050:80'
 
   minio:
     image: quay.io/minio/minio:RELEASE.2022-09-25T15-44-53Z.fips
@@ -188,5 +190,5 @@ services:
 
 volumes:
   redis_data:
-  postgres_data:
+  # postgres_data:
   minio_data:
