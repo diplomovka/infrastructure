@@ -91,7 +91,7 @@ services:
     container_name: files_producer
     hostname: files_producer
     ports:
-      - '5001:5000'
+      - '5001:5001'
     volumes:
       - ./experiments_data:/app/experiments_data
     env_file:
