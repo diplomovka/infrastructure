@@ -79,6 +79,7 @@ services:
       - ./experiments_data:/app/experiments_data
     env_file:
       - files_consumer.env
+      - minio.env
     depends_on:
       - minio
       - redis_db
