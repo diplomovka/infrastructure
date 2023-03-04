@@ -128,9 +128,8 @@ services:
     ports:
       - '9000:9000'
       - '9001:9001'
-    environment:
-      MINIO_ROOT_USER: root
-      MINIO_ROOT_PASSWORD: password
+    env_file:
+      - minio.env
     volumes:
       - minio_data:/data
     command: server --console-address ":9001" /data # command source: http://www.sefidian.com/2022/04/08/deploy-standalone-minio-using-docker-compose/
