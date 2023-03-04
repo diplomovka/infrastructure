@@ -3,7 +3,7 @@
 
 # NOTE: postgres_db, pgadmin, structured_data_consumer and structured_data_producer were removed, because they aren't needed in hash experiment
 
-version: '3.9'
+version: '3'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.2.1
@@ -29,8 +29,8 @@ services:
       - 9092:9092
       - 9101:9101
     depends_on:
-      zookeeper:
-        condition: service_healthy
+      - zookeeper
+        # condition: service_healthy
     environment:
       # some envs taken from https://betterprogramming.pub/adding-schema-registry-to-kafka-in-your-local-docker-environment-49ada28c8a9b
       KAFKA_BROKER_ID: 1
