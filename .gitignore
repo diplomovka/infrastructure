@@ -1,0 +1,5 @@
+experiments_data/*
+files_consumer.env
+files_producer.env
+structured_data_consumer.env
+structured_data_producer.env
