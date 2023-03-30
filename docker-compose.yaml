@@ -72,7 +72,7 @@ services:
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085
 
   files_consumer:
-    image: ykbhlvck/files_consumer:faster-messaging
+    image: ykbhlvck/files_consumer:faster-message-processing
     container_name: files_consumer
     hostname: files_consumer
     volumes:
@@ -110,7 +110,6 @@ services:
       - '6379:6379'
     volumes:
       - redis_data:/data
-    links: ['redis_commander']
 
   minio:
     image: quay.io/minio/minio:RELEASE.2022-09-25T15-44-53Z.fips
@@ -134,3 +133,7 @@ services:
   #     - ./app.conf:/etc/nginx/conf.d/default.conf
   #   ports:
   #     - 80:80
+
+volumes:
+  redis_data:
+  minio_data:
