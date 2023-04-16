@@ -72,7 +72,7 @@ services:
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085
 
   files_consumer:
-    image: ykbhlvck/files_consumer:faster-message-processing
+    image: ykbhlvck/files_consumer:hbase-experiment
     container_name: files_consumer
     hostname: files_consumer
     volumes:
@@ -82,15 +82,13 @@ services:
       - minio.env
     depends_on:
       - minio
-      - redis_db
       - broker
       - zookeeper
       - schema_registry
+      - hbase
 
   local_files_producer:
-    # image: ykbhlvck/local_files_producer:hash-experiment
-    build: 
-      context: ../local_file_producer
+    image: ykbhlvck/local_files_producer:latest
     container_name: local_files_producer
     volumes:
       - ../local_file_producer/experiments_input_data:/app/experiments_input_data
@@ -102,14 +100,24 @@ services:
       - zookeeper
       - schema_registry
 
-  redis_db:
-    image: redis:alpine3.16
-    container_name: redis_db
-    hostname: redis_db
+  hbase:
+    image: dajobe/hbase:latest
+    container_name: hbase
     ports:
-      - '6379:6379'
+        # REST API
+      - '8080:8080'
+        # REST Web UI at :8085/rest.jsp
+      - '8888:8085'
+        # Thrift API
+      - '9090:9090'
+        # Thrift Web UI at :9095/thrift.jsp
+      - '9095:9095'
+        # HBase's Embedded zookeeper cluster
+      - '2200:2181'
+        # HBase Master web UI at :16010/master-status;  ZK at :16010/zk.jsp
+      - '16010:16010'
     volumes:
-      - redis_data:/data
+      - hbase:/data
 
   minio:
     image: quay.io/minio/minio:RELEASE.2022-09-25T15-44-53Z.fips
@@ -137,3 +145,4 @@ services:
 volumes:
   redis_data:
   minio_data:
+  hbase:
