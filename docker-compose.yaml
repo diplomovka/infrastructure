@@ -117,7 +117,7 @@ services:
         # HBase Master web UI at :16010/master-status;  ZK at :16010/zk.jsp
       - '16010:16010'
     volumes:
-      - hbase:/data
+      - hbase_data:/data
 
   minio:
     image: quay.io/minio/minio:RELEASE.2022-09-25T15-44-53Z.fips
@@ -143,6 +143,5 @@ services:
       - 80:80
 
 volumes:
-  redis_data:
   minio_data:
-  hbase:
+  hbase_data:
