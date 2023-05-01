@@ -88,9 +88,7 @@ services:
       - schema_registry
 
   local_files_producer:
-    # image: ykbhlvck/local_files_producer:hash-experiment
-    build: 
-      context: ../local_file_producer
+    image: ykbhlvck/local_files_producer:fixed-size-chunking
     container_name: local_files_producer
     volumes:
       - ../local_file_producer/experiments_input_data:/app/experiments_input_data
