@@ -72,7 +72,7 @@ services:
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085
 
   files_consumer:
-    image: ykbhlvck/files_consumer:faster-message-processing
+    image: ykbhlvck/files_consumer:files-size-chunking
     container_name: files_consumer
     hostname: files_consumer
     volumes:
@@ -88,7 +88,7 @@ services:
       - schema_registry
 
   local_files_producer:
-    image: ykbhlvck/local_files_producer:fixed-size-chunking
+    image: ykbhlvck/local_files_producer:files-size-chunking
     container_name: local_files_producer
     volumes:
       - ../local_file_producer/experiments_input_data:/app/experiments_input_data
@@ -121,16 +121,16 @@ services:
       - minio_data:/data
     command: server --console-address ":9001" /data # command source: http://www.sefidian.com/2022/04/08/deploy-standalone-minio-using-docker-compose/
 
-  # nginx:
-  #   image: nginx:1.21.3
-  #   container_name: nginx
-  #   restart: always
-  #   depends_on:
-  #     - files_consumer
-  #   volumes:
-  #     - ./app.conf:/etc/nginx/conf.d/default.conf
-  #   ports:
-  #     - 80:80
+  nginx:
+    image: nginx:1.21.3
+    container_name: nginx
+    restart: always
+    depends_on:
+      - files_consumer
+    volumes:
+      - ./app.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
 
 volumes:
   redis_data:
