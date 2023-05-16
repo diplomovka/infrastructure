@@ -93,7 +93,7 @@ services:
       context: ../local_file_producer
     container_name: local_files_producer
     volumes:
-      - ../local_file_producer/experiments_input_data:/app/experiments_input_data
+      - ./experiments_input_data:/app/experiments_input_data
       - ./experiments_data:/app/experiments_data
     env_file:
       - local_files_producer.env
